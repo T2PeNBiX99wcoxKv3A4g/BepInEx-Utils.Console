@@ -1,0 +1,62 @@
+using BepinExUtils.Console.Commands;
+using UnityEngine;
+
+namespace BepinExUtils.Console.Behaviour;
+
+public class CommandHandler : MonoBehaviour
+{
+    public CommandHandler() => Console.OnConsoleEnterCommand += OnConsoleEnterCommand;
+
+    private static void OnConsoleEnterCommand(string command)
+    {
+        if (string.IsNullOrWhiteSpace(command)) return;
+        var args = CommandSplit(command);
+        if (args.Length < 1) return;
+        var commandName = args[0];
+        var commandArgs = args.Skip(1).ToArray();
+        if (!CommandManager.TryExecuteCommand(commandName, commandArgs))
+            Utils.Logger.Error($"Unknown command: {commandName}");
+    }
+
+    private static string[] CommandSplit(string command)
+    {
+        var ret = new List<string>();
+        var tempStr = "";
+        var isStrArg = false;
+
+        foreach (var commandChar in command)
+            switch (commandChar)
+            {
+                case ' ':
+                    if (isStrArg)
+                    {
+                        tempStr += commandChar;
+                        break;
+                    }
+
+                    Clear();
+                    break;
+                case '"':
+                    if (isStrArg)
+                        Clear();
+                    else
+                        tempStr = "";
+
+                    isStrArg = !isStrArg;
+                    break;
+                default:
+                    tempStr += commandChar;
+                    break;
+            }
+
+        Clear();
+        return ret.ToArray();
+
+        void Clear()
+        {
+            if (string.IsNullOrEmpty(tempStr)) return;
+            ret.Add(tempStr);
+            tempStr = "";
+        }
+    }
+}
