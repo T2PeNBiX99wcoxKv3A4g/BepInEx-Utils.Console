@@ -1,4 +1,4 @@
-using BepinExUtils.Console.Commands;
+using BepInExUtils.Commands;
 using UnityEngine;
 
 namespace BepinExUtils.Console.Behaviour;
