@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
@@ -251,15 +252,12 @@ public class Console : MonoBehaviour
         {
         }
 
+        [SuppressMessage("ReSharper", "SwitchStatementHandlesSomeKnownEnumValuesWithDefault")]
         public void LogEvent(object sender, LogEventArgs eventArgs)
         {
             var log = string.Format(Configs.ConsoleLogFormat, DateTime.Now, eventArgs.Level,
                 eventArgs.Source.SourceName, eventArgs.Data);
 
-            // if (eventArgs.Data is Exception exception)
-            //     log += $"\n{exception.StackTrace}";
-
-            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
             switch (eventArgs.Level)
             {
                 case LogLevel.Fatal:

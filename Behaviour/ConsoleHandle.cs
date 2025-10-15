@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using BepInEx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -32,6 +33,7 @@ public class ConsoleHandle : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         _parentWindow = rectTransform;
     }
 
+    [SuppressMessage("ReSharper", "SwitchStatementHandlesSomeKnownEnumValuesWithDefault")]
     private void Update()
     {
         if (!_parentWindow || !_isDragging)
@@ -48,7 +50,6 @@ public class ConsoleHandle : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         var mouseDelta = Vector2.Scale((Vector2)UnityInput.Current.mousePosition - _initialMousePos, scaleOffset);
         var size = _initialSize;
 
-        // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
         switch (_direction)
         {
             case Direction.Up:
@@ -91,6 +92,7 @@ public class ConsoleHandle : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         _parentWindow.sizeDelta = size;
     }
 
+    [SuppressMessage("ReSharper", "SwitchStatementHandlesSomeKnownEnumValuesWithDefault")]
     public void OnPointerDown(PointerEventData eventData)
     {
         Utils.Logger.Debug($"OnPointerDown: {_parentWindow} {eventData.button}");
@@ -103,7 +105,6 @@ public class ConsoleHandle : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         _initialSize = _parentWindow.sizeDelta;
         _initialPivot = _parentWindow.pivot;
 
-        // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
         switch (_direction)
         {
             case Direction.Up:

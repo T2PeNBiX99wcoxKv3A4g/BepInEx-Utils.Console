@@ -1,7 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using UnityEngine;
-
-// ReSharper disable InconsistentNaming
 
 namespace BepinExUtils.Console.Patches;
 
@@ -10,6 +9,7 @@ internal class CursorPatches
 {
     [HarmonyPatch(nameof(Cursor.visible), MethodType.Setter)]
     [HarmonyPrefix]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     private static bool visible(ref bool value)
     {
         if (Behaviour.Console.CurrentlySettingCursor) return true;
@@ -22,6 +22,7 @@ internal class CursorPatches
 
     [HarmonyPatch(nameof(Cursor.lockState), MethodType.Setter)]
     [HarmonyPrefix]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     private static bool lockState(ref CursorLockMode value)
     {
         if (Behaviour.Console.CurrentlySettingCursor) return true;
