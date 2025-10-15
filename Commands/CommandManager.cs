@@ -3,11 +3,13 @@ using JetBrains.Annotations;
 namespace BepinExUtils.Console.Commands;
 
 [PublicAPI]
-public class CommandManager
+public static class CommandManager
 {
     public delegate void Command(string[] args);
 
-    public delegate void OnCommandManagerInitEvent(CommandManager commandManager);
+    public delegate void OnCommandManagerInitEvent();
+
+    private static readonly Dictionary<string, CommandInfo> Infos = [];
 
     private static readonly List<CommandInfo> DefaultCommands =
     [
@@ -17,8 +19,7 @@ public class CommandManager
             Description = "Show command infos",
             Command = _ =>
             {
-                var cmdInfos = Instance?._infos.Values.Select(cmd => $"{cmd.Name} - {cmd.Description}");
-                if (cmdInfos == null) return;
+                var cmdInfos = Infos.Values.Select(cmd => $"{cmd.Name} - {cmd.Description}");
                 Utils.Logger.Info($"Available commands:\n{string.Join("\n", cmdInfos)}");
             }
         },
@@ -30,26 +31,16 @@ public class CommandManager
         }
     ];
 
-    private readonly Dictionary<string, CommandInfo> _infos = [];
-
-    private CommandManager()
-    {
-        OnCommandManagerInit?.Invoke(this);
-        Utils.Logger.Debug("CommandManager init");
-    }
-
-    public static CommandManager? Instance { get; private set; } = new();
-
     public static event OnCommandManagerInitEvent? OnCommandManagerInit;
 
     internal static void Init()
     {
         DefaultCommands.ForEach(AddCommand);
+        OnCommandManagerInit?.Invoke();
+        Utils.Logger.Debug("CommandManager init");
     }
 
-    private void AddCommandInternal(CommandInfo commandInfo) => _infos.Add(commandInfo.Name, commandInfo);
-
-    public static void AddCommand(CommandInfo commandInfo) => Instance?.AddCommandInternal(commandInfo);
+    public static void AddCommand(CommandInfo commandInfo) => Infos.Add(commandInfo.Name, commandInfo);
 
     public static void AddCommand(string commandName, string description, Command command) => AddCommand(new()
     {
@@ -58,13 +49,10 @@ public class CommandManager
         Command = command
     });
 
-    private bool TryExecuteCommandInternal(string command, params string[] args)
+    public static bool TryExecuteCommand(string command, params string[] args)
     {
-        if (!_infos.TryGetValue(command, out var info)) return false;
+        if (!Infos.TryGetValue(command, out var info)) return false;
         info.Command(args);
         return true;
     }
-
-    public static bool TryExecuteCommand(string command, params string[] args) =>
-        Instance != null && Instance.TryExecuteCommandInternal(command, args);
 }
