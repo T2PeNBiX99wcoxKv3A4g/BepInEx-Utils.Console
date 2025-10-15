@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 
 namespace BepinExUtils.Console.Commands;
 
+[PublicAPI]
 public class CommandManager
 {
     public delegate void Command(string[] args);
@@ -37,22 +38,19 @@ public class CommandManager
         Utils.Logger.Debug("CommandManager init");
     }
 
-    [UsedImplicitly] public static CommandManager? Instance { get; private set; } = new();
+    public static CommandManager? Instance { get; private set; } = new();
 
-    [UsedImplicitly] public static event OnCommandManagerInitEvent? OnCommandManagerInit;
+    public static event OnCommandManagerInitEvent? OnCommandManagerInit;
 
     internal static void Init()
     {
         DefaultCommands.ForEach(AddCommand);
     }
 
-    [UsedImplicitly]
     private void AddCommandInternal(CommandInfo commandInfo) => _infos.Add(commandInfo.Name, commandInfo);
 
-    [UsedImplicitly]
     public static void AddCommand(CommandInfo commandInfo) => Instance?.AddCommandInternal(commandInfo);
 
-    [UsedImplicitly]
     public static void AddCommand(string commandName, string description, Command command) => AddCommand(new()
     {
         Name = commandName,
@@ -67,7 +65,6 @@ public class CommandManager
         return true;
     }
 
-    [UsedImplicitly]
     public static bool TryExecuteCommand(string command, params string[] args) =>
         Instance != null && Instance.TryExecuteCommandInternal(command, args);
 }

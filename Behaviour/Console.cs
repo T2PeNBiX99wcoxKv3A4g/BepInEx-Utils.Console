@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 namespace BepinExUtils.Console.Behaviour;
 
+[PublicAPI]
 public class Console : MonoBehaviour
 {
     public delegate void OnConsoleEnterCommandEvent(string command);
@@ -70,7 +71,7 @@ public class Console : MonoBehaviour
         }
     }
 
-    [UsedImplicitly] public static Console Instance => _instance ?? throw new NullReferenceException(nameof(Instance));
+    public static Console Instance => _instance ?? throw new NullReferenceException(nameof(Instance));
 
     private void Awake()
     {
@@ -98,7 +99,7 @@ public class Console : MonoBehaviour
         _isAwake = false;
     }
 
-    [UsedImplicitly] public static event OnConsoleEnterCommandEvent? OnConsoleEnterCommand;
+    public static event OnConsoleEnterCommandEvent? OnConsoleEnterCommand;
 
     private void CreateConsole()
     {
@@ -182,7 +183,6 @@ public class Console : MonoBehaviour
         obj.SetActive(false);
     }
 
-    [UsedImplicitly]
     public static void ToTheButton()
     {
         if (!_verticalLayoutGroup || !_contentSizeFitter || !_scrollRect) return;
@@ -194,7 +194,6 @@ public class Console : MonoBehaviour
         _scrollRect.verticalNormalizedPosition = 0f;
     }
 
-    [UsedImplicitly]
     public static void RawLog(string message)
     {
         if (!_consoleContent || !_logTextPrefab || string.IsNullOrEmpty(message)) return;
@@ -214,16 +213,9 @@ public class Console : MonoBehaviour
         ToTheButton();
     }
 
-    [UsedImplicitly]
     public static void Info(string message) => RawLog($"<color=white>{message}</color>");
-
-    [UsedImplicitly]
     public static void Warning(string message) => RawLog($"<color=yellow>{message}</color>");
-
-    [UsedImplicitly]
     public static void Error(string message) => RawLog($"<color=red>{message}</color>");
-
-    [UsedImplicitly]
     public static void Debug(string message) => RawLog($"<color=green>{message}</color>");
 
     private static void Enter(string message)
