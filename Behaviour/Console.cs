@@ -11,7 +11,7 @@ namespace BepinExUtils.Console.Behaviour;
 [PublicAPI]
 public class Console : MonoBehaviour
 {
-    public delegate void OnConsoleEnterCommandEvent(string command);
+    public delegate Task OnConsoleEnterCommandEvent(string command);
 
     private const string ResourcePath = "BepinExUtils.Console.Resources.AssetBundles.bepinexutils.console.bundle";
     private const string CanvasPath = "Assets/BepinExUtils.Console/Canvas.prefab";
@@ -194,10 +194,15 @@ public class Console : MonoBehaviour
         _scrollRect.verticalNormalizedPosition = 0f;
     }
 
-    public static void RawLog(string message)
+    public static async Task RawLog(string message)
     {
         if (!_consoleContent || !_logTextPrefab || string.IsNullOrEmpty(message)) return;
-        var obj = Instantiate(_logTextPrefab, _consoleContent.transform, false);
+        var objs = await InstantiateAsync(_logTextPrefab, new InstantiateParameters
+        {
+            worldSpace = false,
+            parent = _consoleContent.transform
+        });
+        var obj = objs?.GetValueOrDefault(0);
         if (!obj || !obj.TryGetComponent<InputField>(out var inputField)) return;
         inputField.text = message;
         LOGList.Add(inputField);
@@ -213,17 +218,21 @@ public class Console : MonoBehaviour
         ToTheButton();
     }
 
-    public static void Info(string message) => RawLog($"<color=white>{message}</color>");
-    public static void Warning(string message) => RawLog($"<color=yellow>{message}</color>");
-    public static void Error(string message) => RawLog($"<color=red>{message}</color>");
-    public static void Debug(string message) => RawLog($"<color=green>{message}</color>");
+    public static void Info(string message) => _ = RawLog($"<color=white>{message}</color>");
+    public static async Task InfoAsync(string message) => await RawLog($"<color=white>{message}</color>");
+    public static void Warning(string message) => _ = RawLog($"<color=yellow>{message}</color>");
+    public static async Task WarningAsync(string message) => await RawLog($"<color=yellow>{message}</color>");
+    public static void Error(string message) => _ = RawLog($"<color=red>{message}</color>");
+    public static async Task ErrorAsync(string message) => await RawLog($"<color=red>{message}</color>");
+    public static void Debug(string message) => _ = RawLog($"<color=green>{message}</color>");
+    public static async Task DebugAsync(string message) => await RawLog($"<color=green>{message}</color>");
 
     private static void Enter(string message)
     {
         if (string.IsNullOrEmpty(message)) return;
-        RawLog($"<color=gray> > {message}</color>");
+        _ = RawLog($"<color=gray> > {message}</color>");
         ClearInputField();
-        OnConsoleEnterCommand?.Invoke(message);
+        Task.Run(() => OnConsoleEnterCommand?.Invoke(message));
     }
 
     private static void ClearInputField()

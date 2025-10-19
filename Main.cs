@@ -2,6 +2,7 @@
 using BepInExUtils.Attributes;
 using BepinExUtils.Console.Behaviour;
 using UnityEngine;
+using BepInExLogger = BepInEx.Logging.Logger;
 
 namespace BepinExUtils.Console;
 
@@ -20,6 +21,6 @@ public partial class Main
         var obj = new GameObject("BepinExUtils.Console", typeof(Behaviour.Console), typeof(CommandHandler));
         DontDestroyOnLoad(obj);
         obj.hideFlags |= HideFlags.HideAndDontSave;
-        BepInEx.Logging.Logger.Listeners.Add(new Behaviour.Console.LogListener());
+        BepInExLogger.Listeners.Add(new Behaviour.Console.LogListener());
     }
 }

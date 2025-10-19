@@ -7,15 +7,16 @@ public class CommandHandler : MonoBehaviour
 {
     public CommandHandler() => Console.OnConsoleEnterCommand += OnConsoleEnterCommand;
 
-    private static void OnConsoleEnterCommand(string command)
+    private static async Task OnConsoleEnterCommand(string command)
     {
         if (string.IsNullOrWhiteSpace(command)) return;
         var args = CommandSplit(command);
         if (args.Length < 1) return;
         var commandName = args[0];
         var commandArgs = args.Skip(1).ToArray();
-        if (!CommandManager.TryExecuteCommand(commandName, commandArgs))
-            Utils.Logger.Error($"Unknown command: {commandName}");
+        var success = await CommandManager.ExecuteCommand(commandName, commandArgs);
+        if (!success)
+            await Utils.Logger.ErrorAsync($"Unknown command: {commandName}");
     }
 
     private static string[] CommandSplit(string command)
