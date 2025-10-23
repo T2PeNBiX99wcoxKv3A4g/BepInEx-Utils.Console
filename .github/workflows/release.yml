@@ -146,48 +146,48 @@ jobs:
           name: Release ${{ needs.windows-release-build.outputs.new_tag }}
           body: ${{ needs.windows-release-build.outputs.changelog }}
   
-  publish:
-    name: Publish to Thunderstore
-    needs: [ windows-release-build ]
-    runs-on: ubuntu-latest
-    environment: Thunderstore
-    steps:
-      - name: Check-out repository
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-
-      - name: Setup .Net Core
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: '9.0'
-
-      - name: Install `tcli`
-        run: dotnet tool install -g tcli
-
-      - name: Pull changes
-        run: git pull
-
-      - name: Copy files to `.packaging`
-        run: |
-          mkdir -p .packaging/dist
-          cp README.md .packaging/README.md
-          cp icon.png .packaging/icon.png
-          cp CHANGELOG.md .packaging/dist/CHANGELOG.md
-          cp LICENSE .packaging/dist/LICENSE
-
-      - name: Download Artifact
-        uses: actions/download-artifact@v5
-        with:
-          name: release-windows
-          path: .packaging/dist
-
-      - name: List all files
-        run: |
-          ls -r .packaging/
-          ls -r .packaging/dist
-
-      - name: Build Package
-        run: |
-          cd .packaging
-          tcli publish --token ${{ secrets.THUNDERSTORE_TOKEN }} --package-version ${{ needs.windows-release-build.outputs.new_version }}
+#  publish:
+#    name: Publish to Thunderstore
+#    needs: [ windows-release-build ]
+#    runs-on: ubuntu-latest
+#    environment: Thunderstore
+#    steps:
+#      - name: Check-out repository
+#        uses: actions/checkout@v5
+#        with:
+#          fetch-depth: 0
+#
+#      - name: Setup .Net Core
+#        uses: actions/setup-dotnet@v5
+#        with:
+#          dotnet-version: '9.0'
+#
+#      - name: Install `tcli`
+#        run: dotnet tool install -g tcli
+#
+#      - name: Pull changes
+#        run: git pull
+#
+#      - name: Copy files to `.packaging`
+#        run: |
+#          mkdir -p .packaging/dist
+#          cp README.md .packaging/README.md
+#          cp icon.png .packaging/icon.png
+#          cp CHANGELOG.md .packaging/dist/CHANGELOG.md
+#          cp LICENSE .packaging/dist/LICENSE
+#
+#      - name: Download Artifact
+#        uses: actions/download-artifact@v5
+#        with:
+#          name: release-windows
+#          path: .packaging/dist
+#
+#      - name: List all files
+#        run: |
+#          ls -r .packaging/
+#          ls -r .packaging/dist
+#
+#      - name: Build Package
+#        run: |
+#          cd .packaging
+#          tcli publish --token ${{ secrets.THUNDERSTORE_TOKEN }} --package-version ${{ needs.windows-release-build.outputs.new_version }}
