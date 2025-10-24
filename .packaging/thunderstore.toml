@@ -6,7 +6,7 @@ namespace = "ykysnk"
 name = "BepinExUtils_Console"
 versionNumber = "0.0.1" # will be replaced
 description = "Add new ingame console with BepinEx"
-websiteUrl = "https://github.com/T2PeNBiX99wcoxKv3A4g/Always-Mist"
+websiteUrl = "https://github.com/T2PeNBiX99wcoxKv3A4g/BepInEx-Utils.Console"
 containsNsfwContent = false
 [package.dependencies]
 BepInEx-BepInExPack_Silksong = "5.4.2304"
