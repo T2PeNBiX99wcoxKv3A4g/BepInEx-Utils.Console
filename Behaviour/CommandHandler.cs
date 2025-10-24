@@ -14,7 +14,7 @@ public class CommandHandler : MonoBehaviour
         if (args.Length < 1) return;
         var commandName = args[0];
         var commandArgs = args.Skip(1).ToArray();
-        var success = await CommandManager.ExecuteCommand(commandName, commandArgs);
+        var success = await CommandManager.Instance.ExecuteCommand(commandName, commandArgs);
         if (!success)
             await Utils.Logger.ErrorAsync($"Unknown command: {commandName}");
     }
