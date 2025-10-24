@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.0.2](https://github.com/T2PeNBiX99wcoxKv3A4g/BepInEx-Utils.Console/compare/v0.0.1..v0.0.2) - 2025-10-24
+
+### ⚙️ Miscellaneous Tasks
+
+- Update `websiteUrl` in Thunderstore packaging configuration - ([62108c6](https://github.com/T2PeNBiX99wcoxKv3A4g/BepInEx-Utils.Console/commit/62108c6ab1875379a295153d4514a2377e0e022b))
+- Remove trailing whitespace in release workflow configuration - ([e928698](https://github.com/T2PeNBiX99wcoxKv3A4g/BepInEx-Utils.Console/commit/e928698587157862735528505e9e8b13c4795987))
+
+### Action
+
+- Update version in `Main.cs` and update `CHANGELOG.md` - ([e7a8e0e](https://github.com/T2PeNBiX99wcoxKv3A4g/BepInEx-Utils.Console/commit/e7a8e0e8366682e2354271acf151cd70b15db058))
+
+## New Contributors ❤️
+
+* @github-actions[bot] made their first contribution
+
 ## [0.0.1] - 2025-10-24
 
 ### 🐛 Bug Fixes
