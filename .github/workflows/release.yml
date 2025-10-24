@@ -145,7 +145,7 @@ jobs:
           tag: ${{ needs.windows-release-build.outputs.new_tag }}
           name: Release ${{ needs.windows-release-build.outputs.new_tag }}
           body: ${{ needs.windows-release-build.outputs.changelog }}
-  
+
 #  publish:
 #    name: Publish to Thunderstore
 #    needs: [ windows-release-build ]
