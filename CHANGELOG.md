@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.0.3](https://github.com/T2PeNBiX99wcoxKv3A4g/BepInEx-Utils.Console/compare/v0.0.2..v0.0.3) - 2025-10-24
+
+### ⚙️ Miscellaneous Tasks
+
+- Remove `BepInEx-BepInExPack_Silksong` dependency from Thunderstore packaging configuration - ([dcb5247](https://github.com/T2PeNBiX99wcoxKv3A4g/BepInEx-Utils.Console/commit/dcb5247d37fbc4744e112f5c29ef86a4ae4902f9))
+
+### Action
+
+- Update version in `Main.cs` and update `CHANGELOG.md` - ([a6c2e76](https://github.com/T2PeNBiX99wcoxKv3A4g/BepInEx-Utils.Console/commit/a6c2e76751db3027297c5dd664cc32358094e27d))
+
+
 ## [0.0.2](https://github.com/T2PeNBiX99wcoxKv3A4g/BepInEx-Utils.Console/compare/v0.0.1..v0.0.2) - 2025-10-24
 
 ### ⚙️ Miscellaneous Tasks

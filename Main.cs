@@ -14,7 +14,7 @@ namespace BepinExUtils.Console;
 public partial class Main
 {
     private const string SectionOptions = "Options";
-    private const string Version = "0.0.2";
+    private const string Version = "0.0.3";
 
     public void Init()
     {
